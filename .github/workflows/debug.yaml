@@ -19,3 +19,4 @@ jobs:
           kubectl get all -A
           podname=$(kubectl get pod -n kyverno --no-headers -o custom-columns=":metadata.name")
           kubectl logs -n kyverno $podname --all-containers=true
+
