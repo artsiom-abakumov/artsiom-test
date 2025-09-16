@@ -7,12 +7,19 @@ jobs:
   docker:
     runs-on: artsiom-runner-set
     steps:
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        # with:
-          # driver: kubernetes
-      - name: Build and push
-        uses: docker/build-push-action@v6
+      - uses: actions/checkout@v4
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
+      #   # with:
+      #     # driver: kubernetes
+      # - name: Build and push
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     push: false
+      #     tags: user/app:latest
+        
+      - name: Buildah Action
+        uses: redhat-actions/buildah-build@v2
         with:
-          push: false
-          tags: user/app:latest
+          image: my-new-image
+          tags: v1
