@@ -26,5 +26,6 @@ jobs:
       - name: Buildah Action
         uses: redhat-actions/buildah-build@v2
         with:
-          image: my-new-image
-          tags: v1
+          tags: docker.io/kirtanus/gcp_kube_workspace:2.8
+          containerfiles: |
+            ./Dockerfile
