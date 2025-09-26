@@ -4,26 +4,27 @@ on:
   push:
 
 jobs:
-  docker:
+  image:
     runs-on: artsiom-runner-set
     steps:
       - uses: actions/checkout@v4
 
-      - run: |
-          sudo apt-get update
-          sudo apt-get -y install podman
+      # - run: |
+      #     sudo apt-get update
+      #     sudo apt-get -y install podman
       
-      - run: |
-          podman build -t docker.io/kirtanus/gcp_kube_workspace:2.8 .
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v3
-      #   # with:
-      #     # driver: kubernetes
-      # - name: Build and push
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     push: false
-      #     tags: user/app:latest
+      # - run: |
+      #     podman build -t docker.io/kirtanus/gcp_kube_workspace:2.8 .
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        # with:
+          # driver: kubernetes
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: false
+          tags: docker.io/kirtanus/gcp_kube_workspace:2.8
         
       # - name: Buildah Action
       #   uses: redhat-actions/buildah-build@v2
