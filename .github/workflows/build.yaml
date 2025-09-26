@@ -10,8 +10,15 @@ jobs:
       - uses: actions/checkout@v4
       
       - run: |
-          sudo apt-get update && apt-get install -y netcat
-          nc -vz buildkit.arc-systems.svc.cluster.local 1234
+          #!/bin/bash
+          host="buildkit.arc-systems.svc.cluster.local"
+          port=1234
+
+          if echo > "/dev/tcp/${host}/${port}" >/dev/null 2>&1; then
+            echo "✅ Connection to ${host}:${port} succeeded"
+          else
+            echo "❌ Connection to ${host}:${port} failed"
+          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
