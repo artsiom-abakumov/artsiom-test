@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - run: |
-          apt-get update && apt-get install -y netcat
+          sudo apt-get update && apt-get install -y netcat
           nc -vz buildkit.arc-systems.svc.cluster.local 1234
 
       - name: Set up Docker Buildx
