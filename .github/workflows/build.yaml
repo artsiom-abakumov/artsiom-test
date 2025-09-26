@@ -26,8 +26,12 @@ jobs:
           endpoint: tcp://buildkit.arc-systems.svc.cluster.local:1234
           driver: remote
 
-      - name: Build and push
-        uses: docker/build-push-action@v6
+      # - name: Build and push
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     push: false
+      #     tags: docker.io/kirtanus/gcp_kube_workspace:2.8
+
+      - uses: int128/kaniko-action@v1
         with:
           push: false
-          tags: docker.io/kirtanus/gcp_kube_workspace:2.8
