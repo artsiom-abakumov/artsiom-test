@@ -8,31 +8,19 @@ jobs:
     runs-on: artsiom-runner-set
     steps:
       - uses: actions/checkout@v4
-
-      # - run: |
-      #     sudo apt-get update
-      #     sudo apt-get -y install podman
       
-      # - run: |
-      #     podman build -t docker.io/kirtanus/gcp_kube_workspace:2.8 .
+      - run: |
+          apk add busybox-extras    # if minimal image
+          nc -vz buildkit.arc-systems.svc.cluster.local 1234
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
           endpoint: tcp://buildkit.arc-systems.svc.cluster.local:1234
           driver: remote
-          # driver: kubernetes
-          # driver: docker-container
-          # buildkitd-flags: --oci-worker-no-process-sandbox
+
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           push: false
           tags: docker.io/kirtanus/gcp_kube_workspace:2.8
-        
-      # - name: Buildah Action
-      #   uses: redhat-actions/buildah-build@v2
-      #   with:
-      #     tags: docker.io/kirtanus/gcp_kube_workspace:2.8
-      #     containerfiles: |
-      #       ./Dockerfile
