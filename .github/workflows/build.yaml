@@ -9,22 +9,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - run: |
-          #!/bin/bash
-          host="buildkit.arc-systems.svc.cluster.local"
-          port=1234
+      # - run: |
+      #     #!/bin/bash
+      #     host="buildkit.arc-systems.svc.cluster.local"
+      #     port=1234
 
-          if echo > "/dev/tcp/${host}/${port}" >/dev/null 2>&1; then
-            echo "✅ Connection to ${host}:${port} succeeded"
-          else
-            echo "❌ Connection to ${host}:${port} failed"
-          fi
+      #     if echo > "/dev/tcp/${host}/${port}" >/dev/null 2>&1; then
+      #       echo "✅ Connection to ${host}:${port} succeeded"
+      #     else
+      #       echo "❌ Connection to ${host}:${port} failed"
+      #     fi
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        with:
-          endpoint: tcp://buildkit.arc-systems.svc.cluster.local:1234
-          driver: remote
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
+      #   with:
+      #     endpoint: tcp://buildkit.arc-systems.svc.cluster.local:1234
+      #     driver: remote
 
       # - name: Build and push
       #   uses: docker/build-push-action@v6
@@ -32,6 +32,19 @@ jobs:
       #     push: false
       #     tags: docker.io/kirtanus/gcp_kube_workspace:2.8
 
-      - uses: int128/kaniko-action@v1
+      # - uses: int128/kaniko-action@v1
+      #   with:
+      #     push: false
+
+
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y buildah
+          buildah --version
+
+      - name: Buildah Action
+        uses: redhat-actions/buildah-build@v2
         with:
-          push: false
+          tags: docker.io/kirtanus/gcp_kube_workspace:2.8
+          containerfiles: |
+            ./Dockerfile
