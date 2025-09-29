@@ -38,6 +38,7 @@ jobs:
 
 
       - run: |
+          sudo apt-get -o Acquire::ForceIPv4=true update
           sudo apt-get update
           sudo apt-get install -y buildah
           buildah --version
